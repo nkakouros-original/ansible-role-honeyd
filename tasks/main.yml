@@ -1,0 +1,5 @@
+---
+
+- include: honeyd.yml
+  when: honeyd_enabled
+  tags: [honeyd]

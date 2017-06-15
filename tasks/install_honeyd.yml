@@ -1,0 +1,24 @@
+---
+
+- name: Check if honeyd is installed
+  stat:
+    path: /usr/bin/honeyd
+  register: honeyd_exists
+
+- name: Download latest honeyd from git
+  unarchive:
+    src: https://codeload.github.com/DataSoft/Honeyd/zip/master
+    dest: /tmp
+    remote_src: yes
+  when: honeyd_exists == false
+
+- name: Build and install honeyd
+  shell: |
+    # Copied directly from HoneyD README.md
+    ./autogen.sh
+    ./configure
+    make
+    sudo make install
+  args:
+    chdir: /tmp/Honeyd-master
+  when: honeyd_exists == false
