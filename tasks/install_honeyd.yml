@@ -5,20 +5,36 @@
     path: /usr/bin/honeyd
   register: honeyd_exists
 
-- name: Download latest honeyd from git
+- name: Download latest honeyd from DataSoft
   unarchive:
-    src: https://codeload.github.com/DataSoft/Honeyd/zip/master
+    src: "{{ honeyd_datasoft_repo }}"
     dest: /tmp
     remote_src: yes
-  when: honeyd_exists == false
+    list_files: yes
+  when: not honeyd_exists.stat.exists and not honeyd_provos_flavor
+
+- name: Download latest honeyd from Provos
+  unarchive:
+    src: "{{ honeyd_provos_repo }}"
+    dest: /tmp
+    remote_src: yes
+    list_files: yes
+  register: provos_dir
+  #when: not honeyd_exists.stat.exists and honeyd_provos_scripts
 
 - name: Build and install honeyd
   shell: |
-    # Copied directly from HoneyD README.md
+    # Copied directly from (DataSoft) HoneyD README.md
     ./autogen.sh
     ./configure
     make
     sudo make install
   args:
-    chdir: /tmp/Honeyd-master
-  when: honeyd_exists == false
+    chdir: "/tmp/Honeyd-master"
+  when: not honeyd_exists.stat.exists
+
+- name: Copy Provos' scripts to lib
+  shell: mkdir -p /usr/share/honeyd/scripts/original; cp -r /tmp/"{{ provos_dir.files[1] }}"scripts/* /usr/share/honeyd/scripts/original/
+  args:
+    executable: /bin/bash
+  become: yes

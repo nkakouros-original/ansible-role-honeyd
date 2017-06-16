@@ -7,6 +7,7 @@
     sysctl_set: yes
     state: present
     reload: yes
+  become: yes
 
 # - name: Generate fingerprints from nmap
 #   shell:

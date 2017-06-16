@@ -1,3 +1,6 @@
 ---
 
 honeyd_enabled: yes
+
+honeyd_datasoft_repo: 'https://codeload.github.com/DataSoft/Honeyd/zip/master'
+honeyd_provos_repo: 'https://codeload.github.com/provos/honeyd/zip/master'
