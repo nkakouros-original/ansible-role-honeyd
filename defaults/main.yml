@@ -4,3 +4,18 @@ honeyd_enabled: yes
 
 honeyd_datasoft_repo: 'https://codeload.github.com/DataSoft/Honeyd/zip/master'
 honeyd_provos_repo: 'https://codeload.github.com/provos/honeyd/zip/master'
+honeyd_provos_scripts: yes
+
+honeyd_user: nobody
+honeyd_group: nogroup
+
+honeyd_interface: ens4
+honeyd_network: 10.0.0.0/8
+
+honeyd_use_current_nmap_os_db: yes
+honeyd_use_current_nmap_mac_prefixes: yes
+honeyd_force_db_update_check: no
+
+honeyd_packet_log: ''
+honeyd_service_log: ''
+honeyd_dhcp_log: ''

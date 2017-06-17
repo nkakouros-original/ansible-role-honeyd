@@ -1,0 +1,34 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=HoneyD Service
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/bin/bash -c "\
+          /usr/bin/honeyd -f /etc/honeyd/config \
+                          -p /etc/honeyd/nmap-os-db \
+                          -m /etc/honeyd/nmap-mac-prefixes \
+                          -x /etc/honeyd/xprobe2.conf \
+                          -0 /etc/honeyd/pf.os \
+                          -a /etc/honeyd/nmap.assoc \
+                          -i {{ honeyd_interface }} \
+                          {% if honeyd_packet_log %} \
+                          -l {{ honeyd_packet_log }} \
+                          {% endif %} \
+                          {% if honeyd_service_log %} \
+                          -s {{ honeyd_service_log }} \
+                          {% endif %} \
+                          {% if honeyd_dhcp_log %} \
+                          -t {{ honeyd_dhcp_log }} \
+                          {% endif %} \
+                          -u ${USERID} \
+                          -g ${GROUPID} \
+                          {{ honeyd_network }}"
+
+Restart=on-abort
+
+
+[Install]
+WantedBy=multi-user.target

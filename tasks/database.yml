@@ -1,0 +1,19 @@
+---
+
+- name: Update OS db
+  get_url:
+    url: https://raw.githubusercontent.com/nmap/nmap/master/nmap-os-db
+    dest: /etc/honeyd/nmap-os-db
+    mode: 644
+    force: "{{ honeyd_force_db_update_check }}"
+  when: honeyd_use_current_nmap_os_db
+  become: yes
+
+- name: Update MAC-prefix db
+  get_url:
+    url: https://raw.githubusercontent.com/nmap/nmap/master/nmap-mac-prefixes
+    dest: /etc/honeyd/nmap-mac-prefixes
+    mode: 644
+    force: "{{ honeyd_force_db_update_check}}"
+  when: honeyd_use_current_nmap_mac_prefixes
+  become: yes

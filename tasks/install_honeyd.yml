@@ -11,7 +11,7 @@
     dest: /tmp
     remote_src: yes
     list_files: yes
-  when: not honeyd_exists.stat.exists and not honeyd_provos_flavor
+  when: not honeyd_exists.stat.exists
 
 - name: Download latest honeyd from Provos
   unarchive:
@@ -20,7 +20,7 @@
     remote_src: yes
     list_files: yes
   register: provos_dir
-  #when: not honeyd_exists.stat.exists and honeyd_provos_scripts
+  when: not honeyd_exists.stat.exists and honeyd_provos_scripts
 
 - name: Build and install honeyd
   shell: |
@@ -33,8 +33,43 @@
     chdir: "/tmp/Honeyd-master"
   when: not honeyd_exists.stat.exists
 
+- name: Create /etc folder
+  file:
+    path: /etc/honeyd
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  become: yes
+
 - name: Copy Provos' scripts to lib
-  shell: mkdir -p /usr/share/honeyd/scripts/original; cp -r /tmp/"{{ provos_dir.files[1] }}"scripts/* /usr/share/honeyd/scripts/original/
+  shell: |
+    mkdir -p /usr/share/honeyd/scripts/original
+    cp -r /tmp/"{{ provos_dir.files[1] }}"scripts/* /usr/share/honeyd/scripts/original/
   args:
     executable: /bin/bash
+  become: yes
+  when: not honeyd_exists.stat.exists
+
+- name: Copy db files to /etc
+  shell: cp -a {nmap-mac-prefixes,nmap-os-db,pf.os,nmap.assoc,xprobe2.conf} /etc/honeyd
+  args:
+    executable: /bin/bash
+    chdir: "/usr/share/honeyd"
+  become: yes
+  when: not honeyd_exists.stat.exists
+
+- name: Prepare systemd service installation
+  shell: |
+    mkdir /etc/systemd/system/honeyd.service.d
+    echo "[Service]" >> /etc/systemd/system/honeyd.service.d/honeyd.conf
+    echo "Environment=USERID=$(id -u {{ honeyd_user }})" > /etc/systemd/system/honeyd.service.d/honeyd.conf
+    echo "Environment=GROUPID=$(getent group {{ honeyd_group }} | cut -d: -f3)" >> /etc/systemd/system/honeyd.service.d/honeyd.conf
+  become: yes
+  when: not honeyd_exists.stat.exists
+
+- name: Install systemd service
+  template:
+    src: honeyd.service.j2
+    dest: /etc/systemd/system/honeyd.service
   become: yes

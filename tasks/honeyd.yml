@@ -8,4 +8,6 @@
 
 - include: install_honeyd.yml
 
+- include: database.yml
+
 - include: configure.yml
