@@ -1,0 +1,17 @@
+---
+
+- name: Prepare systemd service installation
+  shell: |
+    mkdir /etc/systemd/system/honeyd.service.d
+    echo "[Service]" > /etc/systemd/system/honeyd.service.d/honeyd.conf
+    echo "Environment=USERID=$(id -u {{ honeyd_user }})" >> /etc/systemd/system/honeyd.service.d/honeyd.conf
+    echo "Environment=GROUPID=$(getent group {{ honeyd_group }} | cut -d: -f3)" >> /etc/systemd/system/honeyd.service.d/honeyd.conf
+  become: yes
+  when: not honeyd_exists.stat.exists
+
+- name: Install systemd service
+  template:
+    src: honeyd.service.j2
+    dest: /etc/systemd/system/honeyd.service
+  become: yes
+  when: not honeyd_exists.stat.exists

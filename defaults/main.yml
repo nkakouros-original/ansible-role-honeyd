@@ -16,6 +16,28 @@ honeyd_use_current_nmap_os_db: yes
 honeyd_use_current_nmap_mac_prefixes: yes
 honeyd_force_db_update_check: no
 
-honeyd_packet_log: ''
-honeyd_service_log: ''
-honeyd_dhcp_log: ''
+honeyd_packet_log: yes
+honeyd_service_log: yes
+honeyd_dhcp_log: yes
+
+honeyd_split_config: yes
+honeyd_use_config: ''
+
+honeyd_honeypots:
+  routerone:
+    personality: Cisco 2811 router (IOS 15.1)
+    manufacturer: cisco
+    tcp:
+      default: reset
+      23: script=original/router-telnet.pl
+    bind: 10.100.0.1
+    # dhcp: eth0
+  netbsd:
+    personality: Linux 2.6.27 (Ubuntu 8.10)
+    manufacturer: intel
+    tcp:
+      default: reset
+      22: proxy=\$ipsrc:22
+      80: script=original/web.sh
+      22022: script=linux/ssh.sh
+    bind: 10.100.0.134

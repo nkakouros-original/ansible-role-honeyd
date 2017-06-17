@@ -6,8 +6,7 @@ After=network.target
 
 [Service]
 Type=forking
-ExecStart=/bin/bash -c "\
-          /usr/bin/honeyd -f /etc/honeyd/config \
+ExecStart=/usr/bin/honeyd -f /etc/honeyd/honeyd.conf \
                           -p /etc/honeyd/nmap-os-db \
                           -m /etc/honeyd/nmap-mac-prefixes \
                           -x /etc/honeyd/xprobe2.conf \
@@ -15,17 +14,17 @@ ExecStart=/bin/bash -c "\
                           -a /etc/honeyd/nmap.assoc \
                           -i {{ honeyd_interface }} \
                           {% if honeyd_packet_log %} \
-                          -l {{ honeyd_packet_log }} \
+                          -l /var/log/honeyd/packet.log \
                           {% endif %} \
                           {% if honeyd_service_log %} \
-                          -s {{ honeyd_service_log }} \
+                          -s /var/log/honeyd/service.log \
                           {% endif %} \
                           {% if honeyd_dhcp_log %} \
-                          -t {{ honeyd_dhcp_log }} \
+                          -t /var/log/honeyd/dhcp.log \
                           {% endif %} \
                           -u ${USERID} \
                           -g ${GROUPID} \
-                          {{ honeyd_network }}"
+                          {{ honeyd_network }}
 
 Restart=on-abort
 

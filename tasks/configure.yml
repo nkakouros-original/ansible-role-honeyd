@@ -1,6 +1,6 @@
 ---
 
-- name: Set ip forwarding in the sysctl file and reload if necessary
+- name: Turn ip forwarding off
   sysctl:
     name: net.ipv4.ip_forward
     value: 0
@@ -11,6 +11,29 @@
 
 - name: Generate config
   template:
+    src: single_config.j2
+    dest: /etc/honeyd/honeyd.conf
+  when: not honeyd_split_config
+  become: yes
+
+- name: Generate honeypots
+  template:
+    src: honeypot.j2
+    dest: /etc/honeyd/conf.d/{{ item }}
+  with_items: "{{ honeyd_honeypots|reverse }}"
+  when: honeyd_split_config
+  become: yes
+
+- name: Generate config
+  template:
     src: config.j2
-    dest: /etc/honeyd/config
+    dest: /etc/honeyd/honeyd.conf
+  when: honeyd_split_config
+  become: yes
+
+- name: Upload config
+  copy:
+    src: "{{ honeyd_use_config }}"
+    dest: /etc/honeyd/conf.d/
+  when: honeyd_use_config != ''
   become: yes

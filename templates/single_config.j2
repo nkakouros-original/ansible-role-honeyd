@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+{% for honeypot in honeyd_honeypots|reverse %}
+  {% set item = honeypot %}
+  {% include './honeypot.j2' %}
+
+  {% if honeyd_use_config != '' %}
+    {% include honeyd_use_config %}
+  {% endif %}
+{% endfor %}

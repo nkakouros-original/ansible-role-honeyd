@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+
+{% for honeypot in honeyd_honeypots %}
+  include /etc/honeyd/conf.d/{{ honeypot }}
+{% endfor %}
+
+{% if honeyd_use_config != '' %}
+  include {{ honeyd_use_config | basename }}
+{% endif %}

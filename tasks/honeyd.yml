@@ -8,6 +8,17 @@
 
 - include: install_honeyd.yml
 
+- include: prepare_conf_dirs.yml
+
+- include: systemd.yml
+
 - include: database.yml
 
 - include: configure.yml
+
+- name: Start the honeyd service
+  service:
+    name: honeyd.service
+    state: started
+    enabled: yes
+  become: yes

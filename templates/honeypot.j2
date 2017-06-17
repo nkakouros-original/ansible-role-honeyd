@@ -1,0 +1,45 @@
+# {{ ansible_managed }}
+
+create {{ item }}
+set {{ item }} personality "{{ honeyd_honeypots[item].personality }}"
+{% if honeyd_honeypots[item].mac is defined %}
+set {{ item }} ethernet "{{ honeyd_honeypots[item].mac }}"
+{% elif %}
+{% if honeyd_honeypots[item].manufacturer is defined %}
+set {{ item }} ethernet "{{ honeyd_honeypots[item].manufacturer }}"
+{% endif %}
+
+{% if honeyd_honeypots[item].tcp is defined %}
+  {% for tcp in honeyd_honeypots[item].tcp %}
+    {% if tcp == 'default' %}
+      set {{ item }} default tcp action {{ honeyd_honeypots[item].tcp['default'] }}
+    {% elif honeyd_honeypots[item].tcp[tcp] == 'script' %}
+      add {{ item }} tcp port {{ tcp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].tcp[tcp] }}"
+    {% elif honeyd_honeypots[item].tcp[tcp] == 'proxy' %}
+      add {{ item }} tcp port {{ tcp }} proxy {{ honeyd_honeypots[item].tcp[tcp] }}"
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if honeyd_honeypots[item].udp is defined %}
+set {{ item }} personality "{{ honeyd_honeypots[item].personality }}"
+  {% for udp in honeyd_honeypots[item].udp %}
+    {% if udp == 'default' %}
+      set {{ item }} default udp action {{ honeyd_honeypots[item].udp['default'] }}
+    {% elif honeyd_honeypots[item].udp[udp] == 'script' %}
+      add {{ item }} udp port {{ udp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].udp[udp] }}"
+    {% elif honeyd_honeypots[item].udp[udp] == 'proxy' %}
+      add {{ item }} udp port {{ udp }} proxy {{ honeyd_honeypots[item].udp[udp] }}"
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if honeyd_honeypots[item].icmp is defined %}
+  set {{ item }} default icmp action {{ honeyd_honeypots[item].icmp['default'] }}
+{% endif %}
+
+{% if honeyd_honeypots[item].bind is defined %}
+bind {{ honeyd_honeypots[item].bind }} {{ item }}
+{% elif honeyd_honeypots[item].dhcp is defined %}
+dhcp {{ item }} on {{ honeyd_honeypots[item].dhcp }}
+{% endif %}
