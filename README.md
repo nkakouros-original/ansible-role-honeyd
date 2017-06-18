@@ -6,7 +6,7 @@ This role installs and configures [Honeyd](http://www.honeyd.org/).
 The [original HoneyD version](https://github.com/provos/honeyd) was last updated in 2008. Later, [DataSoft maintained](https://github.com/DataSoft/Honeyd/commits/master) the project until 2013. This is the latest version known (at least to me). This version works well even today and through updating the fingrerprints it can still do the trick. Look [here](https://github.com/DataSoft/Honeyd/issues/91) for more information.
 
 ## What this role does
-It will download honeyd from DataSoft and compile it. Optionally, the scripts from the original honeyd can be placed in `/usr/share/honeyd` alongside the ones from DataSoft. Some of the latter ones have dependencies on [Nova](https://github.com/DataSoft/Nova) and my personal experience was not the best when trying to use them. Configuration files and database files are placed in /etc/honeyd. 
+It will download honeyd from DataSoft and compile it. Optionally, the scripts from the original honeyd can be placed in `/usr/share/honeyd` alongside the ones from DataSoft. Some of the latter ones have dependencies on [Nova](https://github.com/DataSoft/Nova) and my personal experience was not the best when trying to use them. Configuration files and database files are placed in `/etc/honeyd`. 
 
 ## Variables
 Taken directly from [defaults/main.yml](https://github.com/tterranigma/ansible-role-honeyd/blob/master/defaults/main.yml):
