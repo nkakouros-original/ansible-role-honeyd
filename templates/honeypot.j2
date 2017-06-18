@@ -2,12 +2,6 @@
 
 create {{ item }}
 set {{ item }} personality "{{ honeyd_honeypots[item].personality }}"
-{% if honeyd_honeypots[item].mac is defined %}
-set {{ item }} ethernet "{{ honeyd_honeypots[item].mac }}"
-{% elif %}
-{% if honeyd_honeypots[item].manufacturer is defined %}
-set {{ item }} ethernet "{{ honeyd_honeypots[item].manufacturer }}"
-{% endif %}
 
 {% if honeyd_honeypots[item].tcp is defined %}
   {% for tcp in honeyd_honeypots[item].tcp %}
@@ -39,7 +33,12 @@ set {{ item }} personality "{{ honeyd_honeypots[item].personality }}"
 {% endif %}
 
 {% if honeyd_honeypots[item].bind is defined %}
-bind {{ honeyd_honeypots[item].bind }} {{ item }}
+  bind {{ honeyd_honeypots[item].bind }} {{ item }}
 {% elif honeyd_honeypots[item].dhcp is defined %}
-dhcp {{ item }} on {{ honeyd_honeypots[item].dhcp }}
+  {% if honeyd_honeypots[item].mac is defined %}
+    set {{ item }} ethernet "{{ honeyd_honeypots[item].mac }}"
+  {% elif honeyd_honeypots[item].manufacturer is defined %}
+    set {{ item }} ethernet "{{ honeyd_honeypots[item].manufacturer }}"
+  {% endif %}
+  dhcp {{ item }} on {{ honeyd_honeypots[item].dhcp }}
 {% endif %}
