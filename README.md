@@ -8,6 +8,9 @@ The [original HoneyD version](https://github.com/provos/honeyd) was last updated
 ## What this role does
 It will download honeyd from DataSoft and compile it. Optionally, the scripts from the original honeyd can be placed in `/usr/share/honeyd` alongside the ones from DataSoft. Some of the latter ones have dependencies on [Nova](https://github.com/DataSoft/Nova) and my personal experience was not the best when trying to use them. Configuration files and database files are placed in `/etc/honeyd`. It will also create a systemd service to start/stop honeyd (service file is placed in `/etc/systemd/system`).
 
+## Requirements - Dependencies
+None.
+
 ## Variables
 Taken directly from [defaults/main.yml](https://github.com/tterranigma/ansible-role-honeyd/blob/master/defaults/main.yml):
 ```yml
