@@ -56,3 +56,5 @@ honeyd_honeypots:                                                               
       22022: script=linux/ssh.sh
     bind: 10.100.0.134
 ```
+## License
+GPLv3
