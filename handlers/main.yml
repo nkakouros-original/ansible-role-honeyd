@@ -1,2 +1,7 @@
 ---
-# handlers file for ansible-role-honeyd/
+
+- name: restart honeyd
+  service:
+    name: honeyd.service
+    state: restarted
+  become: yes

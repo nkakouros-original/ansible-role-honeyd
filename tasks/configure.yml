@@ -14,6 +14,7 @@
     src: single_config.j2
     dest: /etc/honeyd/honeyd.conf
   when: not honeyd_split_config
+  notify: restart honeyd
   become: yes
 
 - name: Generate honeypots
@@ -29,6 +30,7 @@
     src: config.j2
     dest: /etc/honeyd/honeyd.conf
   when: honeyd_split_config
+  notify: restart honeyd
   become: yes
 
 - name: Upload config
@@ -36,4 +38,5 @@
     src: "{{ honeyd_use_config }}"
     dest: /etc/honeyd/conf.d/
   when: honeyd_use_config != ''
+  notify: restart honeyd
   become: yes
