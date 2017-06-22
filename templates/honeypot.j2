@@ -7,23 +7,22 @@ set {{ item }} personality "{{ honeyd_honeypots[item].personality }}"
   {% for tcp in honeyd_honeypots[item].tcp %}
     {% if tcp == 'default' %}
       set {{ item }} default tcp action {{ honeyd_honeypots[item].tcp['default'] }}
-    {% elif honeyd_honeypots[item].tcp[tcp] == 'script' %}
-      add {{ item }} tcp port {{ tcp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].tcp[tcp] }}"
-    {% elif honeyd_honeypots[item].tcp[tcp] == 'proxy' %}
-      add {{ item }} tcp port {{ tcp }} proxy {{ honeyd_honeypots[item].tcp[tcp] }}"
+    {% elif 'script' in honeyd_honeypots[item].tcp[tcp] %}
+      add {{ item }} tcp port {{ tcp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].tcp[tcp] | replace("script=","") }}"
+    {% elif 'proxy' in honeyd_honeypots[item].tcp[tcp] %}
+      add {{ item }} tcp port {{ tcp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].tcp[tcp] | replace("="," ") }}"
     {% endif %}
   {% endfor %}
 {% endif %}
 
 {% if honeyd_honeypots[item].udp is defined %}
-set {{ item }} personality "{{ honeyd_honeypots[item].personality }}"
   {% for udp in honeyd_honeypots[item].udp %}
     {% if udp == 'default' %}
       set {{ item }} default udp action {{ honeyd_honeypots[item].udp['default'] }}
-    {% elif honeyd_honeypots[item].udp[udp] == 'script' %}
-      add {{ item }} udp port {{ udp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].udp[udp] }}"
-    {% elif honeyd_honeypots[item].udp[udp] == 'proxy' %}
-      add {{ item }} udp port {{ udp }} proxy {{ honeyd_honeypots[item].udp[udp] }}"
+    {% elif 'script' in honeyd_honeypots[item].udp[udp] %}
+      add {{ item }} udp port {{ udp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].udp[udp] | replace("script=","") }}"
+    {% elif 'proxy' in honeyd_honeypots[item].udp[udp] %}
+      add {{ item }} udp port {{ udp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].udp[udp] | replace("="," ") }}"
     {% endif %}
   {% endfor %}
 {% endif %}

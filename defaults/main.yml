@@ -34,7 +34,6 @@ honeyd_honeypots:                                                               
     # dhcp: eth0
   netbsd:
     personality: Linux 2.6.27 (Ubuntu 8.10)
-    manufacturer: intel
     tcp:
       default: reset
       22: proxy=\$ipsrc:22
