@@ -1,17 +1,17 @@
 ---
 
-- include: install.deb.yml
+- import_tasks: install.deb.yml
   when: ansible_os_family == 'Debian'
 
-- include: install.yum.yml
+- import_tasks: install.yum.yml
   when: ansible_os_family == 'RedHat'
 
-- include: install_honeyd.yml
+- import_tasks: install_honeyd.yml
 
-- include: prepare_conf_dirs.yml
+- import_tasks: prepare_conf_dirs.yml
 
-- include: systemd.yml
+- import_tasks: systemd.yml
 
-- include: database.yml
+- import_tasks: database.yml
 
-- include: configure.yml
+- import_tasks: configure.yml
