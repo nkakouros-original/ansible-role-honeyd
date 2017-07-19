@@ -14,6 +14,8 @@ honeyd_network: 10.0.0.0/8                                                      
 
 honeyd_use_current_nmap_os_db: yes                                              # Update the OS db
 honeyd_use_current_nmap_mac_prefixes: yes                                       # Update MAC prefixes
+honeyd_os_db_url: https://raw.githubusercontent.com/nmap/nmap/master/nmap-os-db # Where to download a current nmap-os-db file from
+honeyd_mac_prefixes_url: https://raw.githubusercontent.com/nmap/nmap/master/nmap-mac-prefixes # Where to download a current nmap-mac-prefixes file from
 honeyd_force_db_update_check: no                                                # If yes, it will cause ansible to check for updates in the OS/MAC databases
 
 honeyd_packet_log: yes                                                          # Enables packet logging
