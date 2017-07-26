@@ -4,4 +4,5 @@
   service:
     name: honeyd.service
     state: restarted
+    enabled: yes
   become: yes
