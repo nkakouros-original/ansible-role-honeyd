@@ -1,5 +1,7 @@
 ---
 
+# TODO is this needed? We can set the user in the .service file with User=
+# TODO restart honeyd when user/group changes
 - name: Prepare systemd service installation
   shell: |
     mkdir /etc/systemd/system/honeyd.service.d
