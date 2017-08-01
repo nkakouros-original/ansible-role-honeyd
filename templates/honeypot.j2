@@ -1,7 +1,7 @@
-# {{ ansible_managed }}
-
 create {{ item }}
-set {{ item }} personality "{{ honeyd_honeypots[item].personality }}"
+{% if honeyd_honeypots[item].personality is defined %}
+      set {{ item }} personality "{{ honeyd_honeypots[item].personality }}"
+{% endif %}
 
 {% if honeyd_honeypots[item].tcp is defined %}
   {% for tcp in honeyd_honeypots[item].tcp %}
@@ -10,7 +10,7 @@ set {{ item }} personality "{{ honeyd_honeypots[item].personality }}"
     {% elif 'script' in honeyd_honeypots[item].tcp[tcp] %}
       add {{ item }} tcp port {{ tcp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].tcp[tcp] | replace("script=","") }}"
     {% elif 'proxy' in honeyd_honeypots[item].tcp[tcp] %}
-      add {{ item }} tcp port {{ tcp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].tcp[tcp] | replace("="," ") }}"
+      add {{ item }} tcp port {{ tcp }} {{ honeyd_honeypots[item].tcp[tcp] | replace("="," ") | replace("\\","") }}
     {% endif %}
   {% endfor %}
 {% endif %}
@@ -20,24 +20,30 @@ set {{ item }} personality "{{ honeyd_honeypots[item].personality }}"
     {% if udp == 'default' %}
       set {{ item }} default udp action {{ honeyd_honeypots[item].udp['default'] }}
     {% elif 'script' in honeyd_honeypots[item].udp[udp] %}
-      add {{ item }} udp port {{ udp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].udp[udp] | replace("script=","") }}"
+      add {{ item }} udp port {{ udp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].udp[udp] | replace("script=","") | replace("\\","") }}"
     {% elif 'proxy' in honeyd_honeypots[item].udp[udp] %}
-      add {{ item }} udp port {{ udp }} "/usr/share/honeyd/scripts/{{ honeyd_honeypots[item].udp[udp] | replace("="," ") }}"
+      add {{ item }} udp port {{ udp }} {{ honeyd_honeypots[item].udp[udp] | replace("="," ") }}
     {% endif %}
   {% endfor %}
 {% endif %}
 
 {% if honeyd_honeypots[item].icmp is defined %}
-  set {{ item }} default icmp action {{ honeyd_honeypots[item].icmp['default'] }}
+      set {{ item }} default icmp action {{ honeyd_honeypots[item].icmp['default'] }}
+{% endif %}
+
+{% if honeyd_honeypots[item].subsystems is defined %}
+  {% for subsystem in honeyd_honeypots[item].subsystems %}
+    add {{ item }} subsystem "{{ subsystem.command }}" shared restart
+  {% endfor %}
 {% endif %}
 
 {% if honeyd_honeypots[item].bind is defined %}
-  bind {{ honeyd_honeypots[item].bind }} {{ item }}
+      bind {{ honeyd_honeypots[item].bind }} {{ item }}
 {% elif honeyd_honeypots[item].dhcp is defined %}
   {% if honeyd_honeypots[item].mac is defined %}
-    set {{ item }} ethernet "{{ honeyd_honeypots[item].mac }}"
+      set {{ item }} ethernet "{{ honeyd_honeypots[item].mac }}"
   {% elif honeyd_honeypots[item].manufacturer is defined %}
-    set {{ item }} ethernet "{{ honeyd_honeypots[item].manufacturer }}"
+      set {{ item }} ethernet "{{ honeyd_honeypots[item].manufacturer }}"
   {% endif %}
   dhcp {{ item }} on {{ honeyd_honeypots[item].dhcp }}
 {% endif %}
