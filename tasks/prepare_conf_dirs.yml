@@ -37,6 +37,13 @@
   become: yes
   when: not honeyd_exists.stat.exists
 
+- name: Upload custom scripts
+  copy:
+    src: "{{ item }}"
+    dest: /usr/share/honeyd/scripts/custom/
+    mode: 0755
+  with_items: "{{ honeyd_custom_scripts }}"
+
 - name: Create log directory
   file:
     path: /var/log/honeyd

@@ -22,6 +22,8 @@ honeyd_packet_log: yes                                                          
 honeyd_service_log: yes                                                         # Enables service logging
 honeyd_dhcp_log: yes                                                            # Enables DHCP logging
 
+honeyd_custom_scripts: []
+
 honeyd_split_config: yes                                                        # Split configuration into one file per defined honeypot
 honeyd_use_config: ''                                                           # a local file to upload and integrate with the rest of the configuration
 
