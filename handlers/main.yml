@@ -1,8 +1,9 @@
 ---
 
-- name: restart honeyd
-  service:
+- name: Restart honeyd service
+  systemd:
     name: honeyd.service
     state: restarted
     enabled: yes
-  become: yes
+    daemon_reload: yes
+  listen: restart honeyd
