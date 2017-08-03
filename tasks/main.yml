@@ -2,4 +2,3 @@
 
 - import_tasks: honeyd.yml
   when: honeyd_enabled
-  tags: [honeyd]

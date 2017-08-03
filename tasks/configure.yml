@@ -7,7 +7,6 @@
     sysctl_set: yes
     state: present
     reload: yes
-  become: yes
 
 - name: Generate config
   template:
@@ -15,7 +14,6 @@
     dest: /etc/honeyd/honeyd.conf
   when: not honeyd_split_config
   notify: restart honeyd
-  become: yes
 
 - name: Generate honeypots
   template:
@@ -23,7 +21,6 @@
     dest: /etc/honeyd/conf.d/{{ item }}
   with_items: "{{ honeyd_honeypots|reverse }}"
   when: honeyd_split_config
-  become: yes
 
 - name: Generate config
   template:
@@ -31,7 +28,6 @@
     dest: /etc/honeyd/honeyd.conf
   when: honeyd_split_config
   notify: restart honeyd
-  become: yes
 
 - name: Upload config
   copy:
@@ -39,4 +35,3 @@
     dest: /etc/honeyd/conf.d/
   when: honeyd_use_config != ''
   notify: restart honeyd
-  become: yes

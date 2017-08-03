@@ -7,7 +7,6 @@
     group: root
     mode: 0755
     state: directory
-  become: yes
   when: not honeyd_exists.stat.exists
 
 - name: Create conf.d folder
@@ -18,14 +17,12 @@
     mode: 0755
     state: directory
   when: not honeyd_exists.stat.exists and (honeyd_split_config or ( honeyd_use_config != '' ))
-  become: yes
 
 - name: Copy db files to /etc
   shell: cp -a {nmap-mac-prefixes,nmap-os-db,pf.os,nmap.assoc,xprobe2.conf} /etc/honeyd
   args:
     executable: /bin/bash
     chdir: "/usr/share/honeyd"
-  become: yes
   when: not honeyd_exists.stat.exists
 
 - name: Copy Provos' scripts to lib
@@ -34,7 +31,6 @@
     cp -r /tmp/"{{ provos_dir.files[1] }}"scripts/* /usr/share/honeyd/scripts/original/
   args:
     executable: /bin/bash
-  become: yes
   when: not honeyd_exists.stat.exists
 
 - name: Upload custom scripts
@@ -51,5 +47,4 @@
     group: nogroup
     mode: 0755
     state: directory
-  become: yes
   when: not honeyd_exists.stat.exists
