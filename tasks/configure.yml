@@ -8,6 +8,7 @@
     state: present
     reload: yes
 
+# TODO revisit this template, it is ugly
 - name: Generate config
   template:
     src: single_config.j2
