@@ -7,7 +7,7 @@
 
 - name: Download latest honeyd from DataSoft
   unarchive:
-    src: "{{ honeyd_datasoft_repo }}"
+    src: "{{ honeyd_repo }}"
     dest: /tmp
     remote_src: yes
     list_files: yes
