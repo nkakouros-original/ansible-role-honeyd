@@ -2,14 +2,22 @@
 
 - name: Install named dependencies
   apt:
-    name: "{{ item }}"
-  with_items: [libevent-dev, libdumbnet-dev, libpcap-dev, libpcre3-dev, libedit-dev, bison, flex, libtool, automake]
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - libevent-dev
+      - libdumbnet-dev
+      - libpcap-dev
+      - libpcre3-dev
+      - libedit-dev
+      - bison
+      - flex
+      - libtool
+      - automake
+      # unnamed dependencies
+      - zlib1g-dev
+      - make
+      # utilities
+      - unzip
 
-- name: Install unnamed dependencies
-  apt:
-    name: "{{ item }}"
-  with_items: [zlib1g-dev, make]
 
-- name: Install unzip
-  apt:
-    name: unzip
