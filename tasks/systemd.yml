@@ -1,6 +1,6 @@
 ---
 
-- name: Check if honeyd.servce.d directory exists
+- name: Check if honeyd.service.d directory exists
   stat:
     path: /etc/systemd/system/honeyd.service.d
   register: exists
@@ -20,3 +20,9 @@
     src: honeyd.service.j2
     dest: /etc/systemd/system/honeyd.service
   notify: restart honeyd
+
+- name: Start honeyd service
+  systemd:
+    name: honeyd.service
+    state: started
+    enabled: yes
