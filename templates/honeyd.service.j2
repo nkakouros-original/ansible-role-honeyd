@@ -26,7 +26,7 @@ ExecStart=/usr/bin/honeyd -f /etc/honeyd/honeyd.conf \
                           -g ${GROUPID} \
                           {{ honeyd_network }}
 
-Restart=on-abort
+Restart=on-failure
 
 
 [Install]

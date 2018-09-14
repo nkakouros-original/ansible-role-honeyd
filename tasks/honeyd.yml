@@ -10,8 +10,8 @@
 
 - import_tasks: prepare_conf_dirs.yml
 
-- import_tasks: systemd.yml
+- import_tasks: configure.yml
 
 - import_tasks: database.yml
 
-- import_tasks: configure.yml
+- import_tasks: systemd.yml
