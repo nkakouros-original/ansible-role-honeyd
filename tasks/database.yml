@@ -6,6 +6,8 @@
     dest: /etc/honeyd/nmap-os-db
     mode: 644
     force: "{{ honeyd_force_db_update_check }}"
+  register: result
+  until: result is success
   when: honeyd_use_current_nmap_os_db
 
 - name: Update MAC-prefix db
@@ -14,4 +16,6 @@
     dest: /etc/honeyd/nmap-mac-prefixes
     mode: 644
     force: "{{ honeyd_force_db_update_check}}"
+  register: result
+  until: result is success
   when: honeyd_use_current_nmap_mac_prefixes

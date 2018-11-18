@@ -28,7 +28,7 @@
 - name: Copy Provos' scripts to lib
   shell: |
     mkdir -p /usr/share/honeyd/scripts/original
-    cp -r /tmp/"{{ provos_dir.files[1] }}"scripts/* /usr/share/honeyd/scripts/original/
+    cp -r /tmp/{{ provos_dir.files[1] }}scripts/* /usr/share/honeyd/scripts/original/
   args:
     executable: /bin/bash
   when: not honeyd_exists.stat.exists
@@ -38,7 +38,7 @@
     src: "{{ item }}"
     dest: /usr/share/honeyd/scripts/custom/
     mode: 0755
-  with_items: "{{ honeyd_custom_scripts }}"
+  loop: "{{ honeyd_custom_scripts }}"
 
 - name: Create log directory
   file:
