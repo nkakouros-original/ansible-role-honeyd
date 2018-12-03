@@ -26,11 +26,14 @@
   when: not honeyd_exists.stat.exists
 
 - name: Copy Provos' scripts to lib
-  shell: |
-    mkdir -p /usr/share/honeyd/scripts/original
-    cp -r /tmp/{{ provos_dir.files[1] }}scripts/* /usr/share/honeyd/scripts/original/
-  args:
-    executable: /bin/bash
+  block:
+    - file:
+        path: /usr/share/honeyd/scripts/original
+        state: directory
+    - shell: |
+        cp -r /tmp/{{ provos_dir.files[1] }}scripts/* /usr/share/honeyd/scripts/original/
+      args:
+        executable: /bin/bash
   when: not honeyd_exists.stat.exists
 
 - name: Upload custom scripts

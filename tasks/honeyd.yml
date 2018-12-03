@@ -1,10 +1,6 @@
 ---
 
 - import_tasks: install.deb.yml
-  when: ansible_os_family == 'Debian'
-
-#- import_tasks: install.yum.yml
-  #when: ansible_os_family == 'RedHat'
 
 - import_tasks: install_honeyd.yml
 
