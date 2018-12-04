@@ -36,10 +36,15 @@
         executable: /bin/bash
   when: not honeyd_exists.stat.exists
 
+- name: Create custom script directory
+  file:
+    path: "/usr/share/honeyd/scripts/custom/"
+    state: directory
+
 - name: Upload custom scripts
-  copy:
+  template:
     src: "{{ item }}"
-    dest: /usr/share/honeyd/scripts/custom/
+    dest: "/usr/share/honeyd/scripts/custom/{{ item | basename | replace('.j2', '') }}"
     mode: 0755
   loop: "{{ honeyd_custom_scripts }}"
 
