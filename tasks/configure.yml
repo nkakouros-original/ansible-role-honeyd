@@ -13,6 +13,7 @@
   template:
     src: single_config.j2
     dest: /etc/honeyd/honeyd.conf
+    validate: "/usr/bin/honeyd -f %s -p /etc/honeyd/nmap-os-db --verify-config"
   when: not honeyd_split_config
   notify: restart honeyd
 
@@ -27,6 +28,7 @@
   template:
     src: config.j2
     dest: /etc/honeyd/honeyd.conf
+    validate: "/usr/bin/honeyd -f %s -p /etc/honeyd/nmap-os-db --verify-config"
   when: honeyd_split_config
   notify: restart honeyd
 
