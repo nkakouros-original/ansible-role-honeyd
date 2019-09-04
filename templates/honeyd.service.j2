@@ -27,7 +27,7 @@ ExecStart=/usr/bin/honeyd -f /etc/honeyd/honeyd.conf \
                           {{ honeyd_network }}
 
 Restart=on-failure
-
+RestartSec=10s
 
 [Install]
 WantedBy=multi-user.target
