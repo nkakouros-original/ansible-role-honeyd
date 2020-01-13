@@ -1,0 +1,19 @@
+# vi: ft=yaml.ansible.jinja2
+---
+
+- name: Honeypot instances are up
+  id: "{{ honeyd_monitor_icmp_id | d('honeyd_icmp_monitor') }}"
+  type: icmp
+  enabled: {{ honeyd_monitor_icmp_enabled | d(false) }}
+  schedule: '@every 5s'
+  hosts: {{ honeyd_monitor_icmp_hosts | d([]) }}
+
+- name: Honeypot web servers are up
+  id: "{{ honeyd_monitor_http_id | d('honeyd_http_monitor') }}"
+  type: http
+  enabled: {{ honey_monitor_http_enabled | d(false) }}
+  schedule: '@every 5s'
+  hosts: {{ honeyd_monitor_http_hosts | d([]) }}
+  check:
+    response:
+      code: 200
