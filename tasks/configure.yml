@@ -21,7 +21,7 @@
   template:
     src: honeypot.j2
     dest: /etc/honeyd/conf.d/{{ item }}
-  loop: "{{ honeyd_honeypots|reverse }}"
+  loop: "{{ honeyd_honeypots | reverse | list }}"
   when: honeyd_split_config
 
 - name: Generate config
