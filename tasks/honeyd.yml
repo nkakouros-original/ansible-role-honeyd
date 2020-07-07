@@ -1,13 +1,15 @@
 ---
 
-- import_tasks: install.deb.yml
+- include_tasks: install.deb.yml
 
-- import_tasks: install_honeyd.yml
+- include_tasks: install_honeyd.yml
 
-- import_tasks: prepare_conf_dirs.yml
+- include_tasks: prepare_conf_dirs.yml
 
-- import_tasks: database.yml
+- include_tasks: database.yml
 
-- import_tasks: configure.yml
+- include_tasks: services.yml
 
-- import_tasks: systemd.yml
+- include_tasks: configure.yml
+
+- include_tasks: systemd.yml

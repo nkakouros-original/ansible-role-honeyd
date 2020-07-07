@@ -1,0 +1,19 @@
+---
+
+- name: Install smtp honeypot perl dependencies
+  apt:
+    name: "{{ packages }}"
+    update_cache: true
+  vars:
+    packages:
+      - libmail-sendmail-perl
+      - libnet-dns-perl
+  register: result
+  until: result is success
+  retries: 3
+  delay: 10
+
+- name: Create smtp honeypot needed directory
+  file:
+    path: /tmp/mailstore
+    state: directory
