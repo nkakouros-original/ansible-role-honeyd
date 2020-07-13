@@ -3,6 +3,7 @@
 - name: Install named dependencies
   apt:
     name: "{{ packages }}"
+    update_cache: true
   vars:
     packages:
       - libevent-dev
