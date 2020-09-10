@@ -10,7 +10,7 @@
   processors:
     - add_observer_metadata:
         geo:
-          name: "{{ honeyd_monitor_icmp_location }}"
+          name: "{{ honeyd_monitor_icmp_location | d('') }}"
 
 - name: Honeypot web servers are up
   id: "{{ honeyd_monitor_http_id | d('honeyd_http_monitor') }}"
@@ -24,4 +24,4 @@
   processors:
     - add_observer_metadata:
         geo:
-          name: "{{ honeyd_monitor_http_location }}"
+          name: "{{ honeyd_monitor_http_location | d('') }}"
