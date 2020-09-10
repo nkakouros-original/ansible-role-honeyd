@@ -7,6 +7,10 @@
   enabled: {{ honeyd_monitor_icmp_enabled | d(false) }}
   schedule: '@every 5s'
   hosts: {{ honeyd_monitor_icmp_hosts | d([]) }}
+  processors:
+    - add_observer_metadata:
+        geo:
+          name: "{{ honeyd_monitor_icmp_location }}"
 
 - name: Honeypot web servers are up
   id: "{{ honeyd_monitor_http_id | d('honeyd_http_monitor') }}"
@@ -17,3 +21,7 @@
   check:
     response:
       code: 200
+  processors:
+    - add_observer_metadata:
+        geo:
+          name: "{{ honeyd_monitor_http_location }}"
