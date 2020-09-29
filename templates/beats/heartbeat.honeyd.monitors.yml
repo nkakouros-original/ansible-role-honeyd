@@ -6,6 +6,9 @@
   type: icmp
   enabled: {{ honeyd_monitor_icmp_enabled | d(false) }}
   schedule: '@every 5s'
+  tags:
+    - honeyd
+    - honeypots
   hosts: {{ honeyd_monitor_icmp_hosts | d([]) }}
   processors:
     - add_observer_metadata:
@@ -15,6 +18,9 @@
 - name: Honeypot web servers are up
   id: "{{ honeyd_monitor_http_id | d('honeyd_http_monitor') }}"
   type: http
+  tags:
+    - honeyd
+    - honeypots
   enabled: {{ honey_monitor_http_enabled | d(false) }}
   schedule: '@every 5s'
   hosts: {{ honeyd_monitor_http_hosts | d([]) }}
