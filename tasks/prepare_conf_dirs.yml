@@ -34,9 +34,9 @@
   when: not honeyd_exists.stat.exists
 
 - name: Upload custom scripts
-  copy:
+  template:
     src: "{{ item }}"
-    dest: /usr/share/honeyd/scripts/custom/
+    dest: "/usr/share/honeyd/scripts/custom/{{ item | replace('.j2', '') }}"
     mode: 0755
   with_items: "{{ honeyd_custom_scripts }}"
 
