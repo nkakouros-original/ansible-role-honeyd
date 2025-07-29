@@ -5,6 +5,15 @@
     path: /usr/bin/honeyd
   register: honeyd_exists
 
+- name: Ensure gcc-9 and g++-9 are installed
+  apt:
+    name:
+      - gcc-9
+      - g++-9
+    state: present
+    update_cache: yes
+  when: not honeyd_exists.stat.exists
+
 - name: Download latest honeyd from DataSoft
   unarchive:
     src: "{{ honeyd_repo }}"
@@ -31,4 +40,7 @@
     sudo make install
   args:
     chdir: "/tmp/Honeyd-master"
+  environment:
+    CC: "gcc-9"
+    CXX: "g++-9"
   when: not honeyd_exists.stat.exists
