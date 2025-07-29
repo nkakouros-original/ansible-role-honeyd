@@ -20,6 +20,6 @@
       - make
       # utilities
       - unzip
-      - python
+      - python-is-python3
 
 
