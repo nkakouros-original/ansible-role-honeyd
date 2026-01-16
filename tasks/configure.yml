@@ -12,29 +12,29 @@
 - name: Generate config
   template:
     src: single_config.j2
-    dest: /etc/honeyd/honeyd.conf
-    validate: "/usr/bin/honeyd -f %s -p /etc/honeyd/nmap-os-db --verify-config"
+    dest: "{{ honeyd_install_dir }}/honeyd.conf"
+    validate: "{{ honeyd_install_dir }}/bin/honeyd -f %s -p /{{ honeyd_install_dir }}/share/honeyd/nmap-os-db --verify-config"
   when: not honeyd_split_config
   notify: restart honeyd
 
 - name: Generate honeypots
   template:
     src: honeypot.j2
-    dest: /etc/honeyd/conf.d/{{ item }}
+    dest: "{{ honeyd_install_dir }}/conf.d/{{ item }}"
   loop: "{{ honeyd_honeypots | reverse | list }}"
   when: honeyd_split_config
 
 - name: Generate config
   template:
     src: config.j2
-    dest: /etc/honeyd/honeyd.conf
-    validate: "/usr/bin/honeyd -f %s -p /etc/honeyd/nmap-os-db --verify-config"
+    dest: "{{ honeyd_install_dir }}/honeyd.conf"
+    validate: "{{ honeyd_install_dir }}/bin/honeyd -f %s -p {{ honeyd_install_dir }}/share/honeyd/nmap-os-db --verify-config"
   when: honeyd_split_config
   notify: restart honeyd
 
 - name: Upload config
   copy:
     src: "{{ honeyd_use_config }}"
-    dest: /etc/honeyd/conf.d/
+    dest: "{{ honeyd_install_dir }}/conf.d/"
   when: honeyd_use_config != ''
   notify: restart honeyd

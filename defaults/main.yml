@@ -4,11 +4,14 @@ honeyd_enabled: yes
 # Turns off the role completely
 
 # TODO rename this as we have the zip archive
-honeyd_repo: 'https://codeload.github.com/DataSoft/Honeyd/zip/master'
+honeyd_repo: 'https://github.com/tterranigma/Honeyd/archive/master.zip'
 # Where honeyd will be downloaded from
 
 honeyd_provos_repo: 'https://codeload.github.com/provos/honeyd/zip/master'
 # For the original service scripts
+
+honeyd_install_dir: /opt/honeyd
+# Where honeyd will be installed
 
 honeyd_provos_scripts: yes
 # Enables installing original service scripts

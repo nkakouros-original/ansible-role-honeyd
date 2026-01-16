@@ -6,12 +6,13 @@ After=network.target
 
 [Service]
 Type=forking
-ExecStart=/usr/bin/honeyd -f /etc/honeyd/honeyd.conf \
-                          -p /etc/honeyd/nmap-os-db \
-                          -m /etc/honeyd/nmap-mac-prefixes \
-                          -x /etc/honeyd/xprobe2.conf \
-                          -0 /etc/honeyd/pf.os \
-                          -a /etc/honeyd/nmap.assoc \
+ExecStart={{ honeyd_install_dir }}/bin/honeyd \
+                          -f {{ honeyd_install_dir }}/honeyd.conf \
+                          -p {{ honeyd_install_dir }}/share/honeyd/nmap-os-db \
+                          -m {{ honeyd_install_dir }}/share/honeyd/nmap-mac-prefixes \
+                          -x {{ honeyd_install_dir }}/share/honeyd/xprobe2.conf \
+                          -0 {{ honeyd_install_dir }}/share/honeyd/pf.os \
+                          -a {{ honeyd_install_dir }}/share/honeyd/nmap.assoc \
                           -i {{ honeyd_interface }} \
                           {% if honeyd_packet_log %} \
                           -l /var/log/honeyd/packet.log \

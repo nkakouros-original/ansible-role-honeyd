@@ -1,37 +1,29 @@
 ---
 
-- name: Create /etc folder
+- name: Set permissions for installation folder
   file:
-    path: /etc/honeyd
+    path: "{{ honeyd_install_dir }}"
     owner: root
     group: root
-    mode: 0755
+    mode: 0700
     state: directory
-  when: not honeyd_exists.stat.exists
 
 - name: Create conf.d folder
   file:
-    path: /etc/honeyd/conf.d
+    path: "{{ honeyd_install_dir }}/conf.d"
     owner: root
     group: root
-    mode: 0755
+    mode: 0700
     state: directory
   when: not honeyd_exists.stat.exists and (honeyd_split_config or ( honeyd_use_config != '' ))
-
-- name: Copy db files to /etc
-  shell: cp -a {nmap-mac-prefixes,nmap-os-db,pf.os,nmap.assoc,xprobe2.conf} /etc/honeyd
-  args:
-    executable: /bin/bash
-    chdir: "/usr/share/honeyd"
-  when: not honeyd_exists.stat.exists
 
 - name: Copy Provos' scripts to lib
   block:
     - file:
-        path: /usr/share/honeyd/scripts/original
+        path: "{{ honeyd_install_dir }}/share/honeyd/scripts/original"
         state: directory
     - shell: |
-        cp -r /tmp/{{ provos_dir.files[1] }}scripts/* /usr/share/honeyd/scripts/original/
+        cp -r /tmp/{{ provos_dir.files[1] }}scripts/* {{ honeyd_install_dir }}/share/honeyd/scripts/original/
       args:
         executable: /bin/bash
   when: not honeyd_exists.stat.exists
@@ -44,7 +36,7 @@
 - name: Upload custom scripts
   template:
     src: "{{ item }}"
-    dest: "/usr/share/honeyd/scripts/custom/{{ item | basename | replace('.j2', '') }}"
+    dest: "{{ honeyd_install_dir }}/share/honeyd/scripts/custom/{{ item | basename | replace('.j2', '') }}"
     mode: 0755
   loop: "{{ honeyd_custom_scripts }}"
 

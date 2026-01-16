@@ -2,7 +2,7 @@
 
 - name: Check if honeyd is installed
   stat:
-    path: /usr/bin/honeyd
+    path: "{{ honeyd_install_dir }}/bin/honeyd"
   register: honeyd_exists
 
 - name: Ensure gcc-9 and g++-9 are installed
@@ -35,7 +35,7 @@
   shell: |
     # Copied directly from (DataSoft) HoneyD README.md
     ./autogen.sh
-    ./configure
+    ./configure --prefix={{ honeyd_install_dir }}
     make
     sudo make install
   args:

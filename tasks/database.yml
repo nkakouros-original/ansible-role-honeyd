@@ -3,7 +3,7 @@
 - name: Update OS db
   get_url:
     url: "{{ honeyd_os_db_url }}"
-    dest: /etc/honeyd/nmap-os-db
+    dest: "{{ honeyd_install_dir }}/share/honeyd/nmap-os-db"
     mode: 644
     force: "{{ honeyd_force_db_update_check }}"
   register: result
@@ -13,7 +13,7 @@
 - name: Update MAC-prefix db
   get_url:
     url: "{{ honeyd_mac_prefixes_url }}"
-    dest: /etc/honeyd/nmap-mac-prefixes
+    dest: "{{ honeyd_install_dir }}/share/honeyd/nmap-mac-prefixes"
     mode: 644
     force: "{{ honeyd_force_db_update_check }}"
   register: result
